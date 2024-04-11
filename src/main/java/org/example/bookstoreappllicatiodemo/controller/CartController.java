@@ -1,8 +1,11 @@
 package org.example.bookstoreappllicatiodemo.controller;
 
+import org.example.bookstoreappllicatiodemo.dto.AddToCartRequest;
 import org.example.bookstoreappllicatiodemo.dto.CartDTO;
 
 import org.example.bookstoreappllicatiodemo.service.cartservices.CartService;
+import org.example.bookstoreappllicatiodemo.service.cartservices.ICartService;
+import org.example.bookstoreappllicatiodemo.util.UserJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,19 +27,30 @@ public class CartController {
     public CartController(CartService cartService) {
         this.cartService = cartService;
     }
+    @Autowired
+    UserJWT userJWT;
+
+    @Autowired
+    ICartService iCartService;
 
 
-    @PostMapping ("/add")
-    public ResponseEntity<?> addToCart(@RequestBody CartDTO cartDTO) {
-        System.out.println("Received cartDTO: " + cartDTO);  // Add this line to log the cartDTO
+
+    @PostMapping("/add")
+    public ResponseEntity<Map<String, String>> addToCart(@RequestBody AddToCartRequest request, @RequestHeader String token) {
+        long userId = userJWT.decodeToken(token);
         try {
-            cartService.addToCart(cartDTO);
-            return ResponseEntity.ok().body(Map.of("message", "Item added to cart successfully."));
+            iCartService.addToCart(userId, request.getBookId(), request.getQuantity());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Item added successfully");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Failed to add item to cart."));
+            Map<String, String> response = new HashMap<>();
+            response.put("error", "Failed to add item: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 
 
 

@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-@CrossOrigin
-@RestController
+import java.util.Optional;
 
+
+@RestController
+@CrossOrigin("http://localhost:4200")
 @ResponseStatus(HttpStatus.OK)
 
 public class UserController {
@@ -50,7 +52,7 @@ public class UserController {
 
 
     @GetMapping("getByToken")
-     public List<UserEntity> getUserByJWT(@RequestHeader String token) {
+     public Optional<UserEntity> getUserByJWT(@RequestHeader String token) {
         return iUserRegistration.getUserByJWT(token);
 }
 

@@ -9,21 +9,20 @@ import java.util.Base64;
 public class UserJWT {
     private static final String SECRET_KEY = "jackandjill";
 
-    public String createToken(String userFirstName) {
+    public String createToken(Long id) {
         return JWT.create()
-                .withClaim("userFirstName", userFirstName)
+                .withClaim("id", id)
                 .sign(Algorithm.HMAC256(Base64.getEncoder().encode(SECRET_KEY.getBytes())));
     }
 
-    public String decodeToken(String token) {
+    public Long decodeToken(String token) {
         try {
-            String userFirstName = JWT.require(Algorithm.HMAC256(Base64.getEncoder().encode(SECRET_KEY.getBytes())))
+            long userId = JWT.require(Algorithm.HMAC256(Base64.getEncoder().encode(SECRET_KEY.getBytes())))
                     .build()
                     .verify(token)
-                    .getClaim("userFirstName")
-                    .asString();
-
-            return userFirstName;
+                    .getClaim("id")
+                    .asLong();
+           return userId;
         } catch (Exception e) {
             // Handle token decoding exception
             return null;
@@ -31,4 +30,3 @@ public class UserJWT {
     }
 
 }
-

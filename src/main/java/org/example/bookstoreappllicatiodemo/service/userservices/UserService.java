@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Component
@@ -46,7 +47,7 @@ public class UserService implements IUserRegistration {
 //        BCryptPasswordEncoder bcrypt=new BCryptPasswordEncoder();
 
         if (userEntity != null && bCryptPasswordEncoder.matches(userLoginDto.getPassword(), userEntity.getPassword())) {
-            String token = userJwt.createToken(userEntity.getFirstName());
+            String token = userJwt.createToken(userEntity.getId());
             String body = "Successfully registered";
             String subject = "account verified";
             emailSender.sendEmail(userLoginDto.getEmail(), subject, body);
@@ -56,20 +57,10 @@ public class UserService implements IUserRegistration {
         }
     }
     @Override
-    public List<UserEntity> getUserByJWT(String token) {
-        try {
-            String userFirstName = userJwt.decodeToken(token);
-            List<UserEntity> users = userRepository.findByFirstName(userFirstName);
-            if (users.isEmpty()) {
-                return Collections.emptyList();  // No user found with that first name
-            } else {
-                // Handle case where more than one user is found
-                return users;  // Or handle according to your specific needs
-            }
-        } catch (JWTVerificationException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+    public Optional<UserEntity> getUserByJWT(String token) {
+        long userId = userJwt.decodeToken(token);
+        System.out.println(" service"+userId);
+        return userRepository.findById(userId);
     }
 
 

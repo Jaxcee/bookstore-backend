@@ -5,7 +5,9 @@ import org.example.bookstoreappllicatiodemo.dto.CartDTO;
 import java.util.List;
 
 public interface ICartService {
-    void addToCart(CartDTO cartDTO);
+//    void addToCart(CartDTO cartDTO);
+
+     void addToCart(Long userId,Long bookId, long quantity);
     void removeFromCart(Long cartId);
     void removeByUserId(Long userId);
     void updateQuantity(Long cartId, Long quantity);

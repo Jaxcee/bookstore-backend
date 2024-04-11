@@ -5,6 +5,7 @@ import org.example.bookstoreappllicatiodemo.dto.UserLoginDTO;
 import org.example.bookstoreappllicatiodemo.entity.UserEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IUserRegistration {
     String UserRegistration(UserEntity userEntity);
@@ -12,7 +13,7 @@ public interface IUserRegistration {
 
 
 
-  List<UserEntity> getUserByJWT(String token);
+  Optional<UserEntity> getUserByJWT(String token);
 
 
 }

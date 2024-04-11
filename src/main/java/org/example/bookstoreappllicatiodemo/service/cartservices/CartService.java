@@ -27,13 +27,13 @@ public class CartService implements ICartService {
     private CartRepository cartRepository;
 
     @Override
-    public void addToCart(CartDTO cartDTO) {
+    public void addToCart(Long userId,Long bookId, long quantity) {
 
 
-        UserEntity user  = userRepository.findById(cartDTO.getUserId())
+        UserEntity user  = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found"));
 
-        BookEntity book = bookRepository.findById(cartDTO.getBookId())
+        BookEntity book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book not found"));
 
 
@@ -41,8 +41,8 @@ public class CartService implements ICartService {
 
         cartEntity.setBook(book);
         cartEntity.setUser(user);
-        cartEntity.setQuantity(cartDTO.getQuantity());
-        cartEntity.setTotalPrice(book.getBookPrice() * cartDTO.getQuantity()); // Using book price directly from the BookEntity
+        cartEntity.setQuantity(quantity);
+        cartEntity.setTotalPrice(book.getBookPrice() * quantity); // Using book price directly from the BookEntity
 
         cartRepository.save(cartEntity);
     }
