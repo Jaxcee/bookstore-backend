@@ -15,12 +15,12 @@ public class CartEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+
     private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "book_id")
-    @JsonIgnore
+
     private BookEntity book;
 
     private Long quantity;

@@ -12,5 +12,5 @@ public class BookDTO {
     private String bookName;
     private String authorName;
     private String bookLogo;  // URL to the book image
-    private Double bookPrice;
+    private Long bookPrice;
 }

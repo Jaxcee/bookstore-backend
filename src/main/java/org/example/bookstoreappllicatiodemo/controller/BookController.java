@@ -37,7 +37,7 @@ public class BookController {
         bookDTO.setBookName(book.getBookName());
         bookDTO.setAuthorName(book.getAuthorName());
         bookDTO.setBookLogo(book.getBookLogo()); // Make sure your Book entity has this field
-        bookDTO.setBookPrice(Double.valueOf(book.getBookPrice()));
+        bookDTO.setBookPrice(book.getBookPrice());
 
         return ResponseEntity.ok(bookDTO);
     }

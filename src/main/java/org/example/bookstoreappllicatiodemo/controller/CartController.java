@@ -3,6 +3,7 @@ package org.example.bookstoreappllicatiodemo.controller;
 import org.example.bookstoreappllicatiodemo.dto.AddToCartRequest;
 import org.example.bookstoreappllicatiodemo.dto.CartDTO;
 
+import org.example.bookstoreappllicatiodemo.entity.CartEntity;
 import org.example.bookstoreappllicatiodemo.service.cartservices.CartService;
 import org.example.bookstoreappllicatiodemo.service.cartservices.ICartService;
 import org.example.bookstoreappllicatiodemo.util.UserJWT;
@@ -76,8 +77,10 @@ public class CartController {
         return cartService.getAllCartItemsForUser(userId);
     }
 
-    @GetMapping("/all")
-    public List<CartDTO> getAllCartItems() {
-        return cartService.getAllCartItems();
+    @GetMapping("/allcartitems")
+    public ResponseEntity <List<CartEntity> >getAllCartItems(@RequestHeader String token) {
+        long userId = userJWT.decodeToken(token);
+        List<CartEntity> cartItems = iCartService.getAllCartItems(userId);
+        return new ResponseEntity<>(cartItems, HttpStatus.OK);
     }
 }

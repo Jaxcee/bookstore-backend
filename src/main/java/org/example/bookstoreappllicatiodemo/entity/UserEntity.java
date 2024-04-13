@@ -1,13 +1,13 @@
 package org.example.bookstoreappllicatiodemo.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -25,7 +25,9 @@ public class UserEntity {
     private Integer age;
     private String gender;
     private String otp;
-
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<CartEntity> cart;
 
     public UserEntity(Long id, String firstName, String lastName, String email, String password, Integer age, String gender) {
         this.id = id;

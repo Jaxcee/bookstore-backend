@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,7 +62,7 @@ public class CartService implements ICartService {
         CartEntity cartEntity = cartRepository.findById(cartId).orElseThrow(() -> new IllegalArgumentException("Cart not found"));
 
         BookEntity book = cartEntity.getBook();
-        int bookPrice = book.getBookPrice(); // Using book price directly from the BookEntity
+        Long bookPrice = book.getBookPrice(); // Using book price directly from the BookEntity
 
         cartEntity.setQuantity(quantity);
         cartEntity.setTotalPrice(bookPrice * quantity);
@@ -79,11 +78,8 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public List<CartDTO> getAllCartItems() {
-        List<CartEntity> cartEntities = cartRepository.findAll();
-        return cartEntities.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public List<CartEntity> getAllCartItems(Long UserId) {
+        return cartRepository.findByUserId(UserId);
     }
 
     private CartDTO convertToDTO(CartEntity cartEntity) {
