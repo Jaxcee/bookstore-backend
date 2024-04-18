@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -28,6 +30,8 @@ public class BookEntity {
     @OneToMany(mappedBy = "book")
     @JsonIgnore
     private List<CartEntity> cart;
+
+
 
     // Constructors, getters, setters, and toString method
 }

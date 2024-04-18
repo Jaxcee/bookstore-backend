@@ -2,41 +2,39 @@ package org.example.bookstoreappllicatiodemo.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-@NoArgsConstructor
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 public class OrderEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long orderId;
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
-        @ManyToOne
-        @JoinColumn(name = "cart_id", referencedColumnName = "cartId")
-        private CartEntity cart;
+    @ManyToMany
+    @JoinTable(
+            name = "order_books",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<BookEntity> books = new HashSet<>();
 
-        @Column(nullable = false)
-        private LocalDateTime orderDate;
+    private LocalDateTime orderTime;
 
-        @Column(nullable = false)
-        private Boolean cancel;
-
-
-        @Column(length = 500) // Adjust the length according to your needs
-        private String address;
-        // Constructors, getters, and setters
-    }
+    // Getters and Setters
+}
 
 
 

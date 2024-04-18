@@ -25,6 +25,7 @@ public class CartEntity {
 
     private Long quantity;
     private Long totalPrice;
+    private boolean ordered;
 
 
 

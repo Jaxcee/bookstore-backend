@@ -17,6 +17,7 @@ import java.util.List;
 public class UserEntity {
     @Id
     @GeneratedValue
+    @Column(name="id")
     private  Long id;
     private  String firstName;
     private  String lastName;
